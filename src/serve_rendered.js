@@ -276,6 +276,7 @@ module.exports = function(options, repo, params, id, dataResolver) {
   var attributionOverride = params.tilejson && params.tilejson.attribution;
   Object.assign(tileJSON, params.tilejson || {});
   tileJSON.tiles = params.domains || options.domains;
+  tileJSON.url_prefix = options.url_prefix;
   utils.fixTileJSONCenter(tileJSON);
 
   var dataProjWGStoInternalWGS = null;
@@ -747,7 +748,7 @@ module.exports = function(options, repo, params, id, dataResolver) {
   app.get('/' + id + '.json', function(req, res, next) {
     var info = clone(tileJSON);
     info.tiles = utils.getTileUrls(req, info.tiles,
-                                   'styles/' + id, info.format);
+                                   'styles/' + id, info.format, undefined, info.url_prefix);
     return res.send(info);
   });
 

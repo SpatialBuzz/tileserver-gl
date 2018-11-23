@@ -6,7 +6,7 @@ var path = require('path'),
 var clone = require('clone'),
     glyphCompose = require('glyph-pbf-composite');
 
-module.exports.getTileUrls = function(req, domains, path, format, aliases) {
+module.exports.getTileUrls = function(req, domains, path, format, aliases, url_prefix) {
 
   if (domains) {
     if (domains.constructor === String && domains.length > 0) {
@@ -49,8 +49,15 @@ module.exports.getTileUrls = function(req, domains, path, format, aliases) {
   }
 
   var uris = [];
+  if (!url_prefix) {
+    url_prefix = '';
+  }
+  else {
+    url_prefix += '/';
+  }
+
   domains.forEach(function(domain) {
-    uris.push(req.protocol + '://' + domain + '/' + path +
+    uris.push(req.protocol + '://' + domain + '/' + url_prefix + path +
               '/{z}/{x}/{y}.' + format + query);
   });
 

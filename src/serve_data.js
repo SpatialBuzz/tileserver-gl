@@ -23,7 +23,8 @@ module.exports = function(options, repo, params, id, styles) {
 
   var mbtilesFile = path.resolve(options.paths.mbtiles, params.mbtiles);
   var tileJSON = {
-    'tiles': params.domains || options.domains
+    'tiles': params.domains || options.domains,
+    'url_prefix': options.url_prefix
   };
 
   var shrinkers = {};
@@ -180,7 +181,7 @@ module.exports = function(options, repo, params, id, styles) {
     info.tiles = utils.getTileUrls(req, info.tiles,
                                    'data/' + id, info.format, {
                                      'pbf': options.pbfAlias
-                                   });
+                                   }, info.url_prefix);
     return res.send(info);
   });
 
