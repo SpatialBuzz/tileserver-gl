@@ -19,7 +19,7 @@ Example::
         "localhost:8080",
         "127.0.0.1:8080"
       ],
-      "url_prefix": "hosting/sub/folder"
+      "url_prefix": "hosting/sub/folder",
       "formatQuality": {
         "jpeg": 80,
         "webp": 90
