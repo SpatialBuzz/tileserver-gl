@@ -57,7 +57,7 @@ module.exports.getTileUrls = function(req, domains, path, format, aliases, url_p
   }
 
   domains.forEach(function(domain) {
-    uris.push(req.protocol + '://' + domain + '/' + url_prefix + path +
+    uris.push('//' + domain + '/' + url_prefix + path +
               '/{z}/{x}/{y}.' + format + query);
   });
 
