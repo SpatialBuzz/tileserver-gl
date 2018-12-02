@@ -57,7 +57,19 @@ module.exports.getTileUrls = function(req, domains, path, format, aliases, url_p
   }
 
   domains.forEach(function(domain) {
-    uris.push('//' + domain + '/' + url_prefix + path +
+    var proto = req.protocol;
+    if (req.get('CloudFront-Forwarded-Proto')) {
+      proto = req.get('CloudFront-Forwarded-Proto') ;
+    }
+    else if (req.get('X-Forwarded-Proto')) {
+      proto = req.get('X-Forwarded-Proto') ;
+    }
+
+    var host = domain;
+    if (req.get('X-Forwarded-Host')) {
+      host = req.get('X-Forwarded-Host');
+    }
+    uris.push(proto + '://' + host + '/' + url_prefix + path +
               '/{z}/{x}/{y}.' + format + query);
   });
 

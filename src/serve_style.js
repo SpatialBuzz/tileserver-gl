@@ -86,8 +86,19 @@ module.exports = function(options, repo, params, id, reportTiles, reportFont) {
       if (queryParams.length) {
         query = '?' + queryParams.join('&');
       }
-      return url.replace(
-          'local://', '//' + req.headers.host + '/' + opt_url_prefix) + query;
+      var proto = req.protocol;
+      if (req.get('CloudFront-Forwarded-Proto')) {
+        proto = req.get('CloudFront-Forwarded-Proto') ;
+      }
+      else if (req.get('X-Forwarded-Proto')) {
+        proto = req.get('X-Forwarded-Proto') ;
+      }
+      var host = req.headers.host;
+      if (req.get('X-Forwarded-Host')) {
+        host = req.get('X-Forwarded-Host');
+      }
+        return url.replace(
+          'local://', proto + '://' + host + '/' + opt_url_prefix) + query;
     };
 
     var styleJSON_ = clone(styleJSON);
